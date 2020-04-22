@@ -8,10 +8,6 @@ class MapSample extends StatefulWidget {
 
 class _MyAppState extends State<MapSample> {
   @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    return null;
-  }
   GoogleMapController mapController;
 
   final LatLng _center = const LatLng(45.521563, -122.677433);
@@ -26,7 +22,7 @@ class _MyAppState extends State<MapSample> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Maps Sample App'),
+          title: Text('covid spread'),
           backgroundColor: Colors.green[700],
         ),
         body: GoogleMap(

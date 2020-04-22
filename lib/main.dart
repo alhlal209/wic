@@ -2,8 +2,6 @@ import 'package:wic/constant.dart';
 import 'package:wic/widgets/counter.dart';
 import 'package:wic/widgets/my_header.dart';
 import 'package:flutter/material.dart';
-import 'package:wic/info_screen.dart';
-import 'package:wic/widgets/instruction.dart';
 
 void main() => runApp(MyApp());
 
@@ -54,77 +52,121 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  int appCurrIndex = 0;
+  List<Icon> iconsList = [
+    Icon(Icons.notifications),
+    Icon(Icons.cake),
+    Icon(Icons.person),
+    Icon(Icons.settings),
+  ];
+  List<Widget> bodyData = [
+    Center(
+      child: Text("Notifications"),
+    ),
+    Center(
+      child: Text("Birthday Cake"),
+    ),
+    Center(
+      child: Text("Person"),
+    ),
+    Center(
+      child: Text("Settings"),
+    ),
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: BottomAppBar(
-        elevation: 8,
-        color: Colors.brown[50],
-        shape: const CircularNotchedRectangle(),
-        child: Container(
-          height: 70,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              IconButton(color: Colors.brown,
-                icon: Icon(Icons.dock),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return InfoScreen();
-                      },
-                    ),
-                  );
-                },
-              ),
-              IconButton(color: Colors.brown,
-                icon: Icon(Icons.map),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return InfoScreen();
-                      },
-                    ),
-                  );
-                },
-              ),
-              IconButton(color: Colors.brown,
-                icon: Icon(Icons.person_pin),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return MapSample();
-                      },
-                    ),
-                  );
-                },
-              ),
-              IconButton(color: Colors.brown,
-                icon: Icon(Icons.autorenew),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return InfoScreen();
-                      },
-                    ),
-                  );
-                },
-              ),
-            ],
+//      bottomNavigationBar: BottomAppBar(
+//        elevation: 8,
+//        color: Colors.brown[50],
+//        shape: const CircularNotchedRectangle(),
+//        child: Container(
+//          height: 70,
+//          child: Row(
+//            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//            children: <Widget>[
+//              IconButton(color: Colors.brown,
+//                icon: Icon(Icons.dock),
+//                onPressed: () {
+//                  Navigator.push(
+//                    context,
+//                    MaterialPageRoute(
+//                      builder: (context) {
+//                        return InfoScreen();
+//                      },
+//                    ),
+//                  );
+//                },
+//              ),
+//              IconButton(color: Colors.brown,
+//                icon: Icon(Icons.map),
+//                onPressed: () {
+//                  Navigator.push(
+//                    context,
+//                    MaterialPageRoute(
+//                      builder: (context) {
+//                        return InfoScreen();
+//                      },
+//                    ),
+//                  );
+//                },
+//              ),
+//              IconButton(color: Colors.brown,
+//                icon: Icon(Icons.autorenew),
+//                onPressed: () {
+//                  Navigator.push(
+//                    context,
+//                    MaterialPageRoute(
+//                      builder: (context) {
+//                        return MapSample();
+//                      },
+//                    ),
+//                  );
+//                },
+//              ),
+//              IconButton(color: Colors.brown,
+//                icon: Icon(Icons.autorenew),
+//                onPressed: () {
+//                  Navigator.push(
+//                    context,
+//                    MaterialPageRoute(
+//                      builder: (context) {
+//                        return InfoScreen();
+//                      },
+//                    ),
+//                  );
+//                },
+//              ),
+//            ],
+//          ),
+//        ),
+//      ),
+
+      bottomNavigationBar: Container(
+          margin: EdgeInsets.all(10.0),
+          padding: EdgeInsets.all(10.0),
+          decoration: BoxDecoration(
+            color: Colors.black54,
+            borderRadius: BorderRadius.circular(100.0),
           ),
-        ),
-      ),
+          child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: List<IconButton>.generate(4, (int i) {
+                return IconButton(
+                  color: i == appCurrIndex ? Colors.white : Colors.white60,
+                  icon: iconsList[i],
+                  iconSize: 30.0,
+                  onPressed: () {
+                    setState(() {
+                      appCurrIndex = i;
+                    });
+                  },
+                );
+              }))),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.brown,
-        splashColor: Colors.brown[200],
+        splashColor: Colors.brown[400],
         onPressed: () {},
         child: Icon(Icons.call,),
         tooltip: 'call if you find corona case',
