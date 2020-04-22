@@ -1,224 +1,247 @@
-import 'package:wic/constant.dart';
-import 'package:wic/widgets/my_header.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
-class InfoScreen extends StatefulWidget {
-  @override
-  _InfoScreenState createState() => _InfoScreenState();
+class CovidNews extends StatefulWidget {
+  CovidNews({Key key}) : super(key: key);
+  _CovidNewsState createState() => _CovidNewsState();
 }
 
-class _InfoScreenState extends State<InfoScreen> {
-  final controller = ScrollController();
-  double offset = 0;
+class _CovidNewsState extends State<CovidNews> {
+  final TextStyle dropdownMenuItem =
+  TextStyle(color: Colors.black, fontSize: 18);
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    controller.addListener(onScroll);
-  }
+  final primary = Color(0xff696b9e);
+  final secondary = Color(0xfff29a94);
 
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    controller.dispose();
-    super.dispose();
-  }
-
-  void onScroll() {
-    setState(() {
-      offset = (controller.hasClients) ? controller.offset : 0;
-    });
-  }
+  final List<Map> schoolLists = [
+    {
+      "name": "Edgewick Scchol",
+      "location": "572 Statan NY, 12483",
+      "type": "Higher Secondary School",
+      "logoText":
+      "https://cdn.pixabay.com/photo/2017/03/16/21/18/logo-2150297_960_720.png"
+    },
+    {
+      "name": "Xaviers International",
+      "location": "234 Road Kathmandu, Nepal",
+      "type": "Higher Secondary School",
+      "logoText":
+      "https://cdn.pixabay.com/photo/2017/01/31/13/14/animal-2023924_960_720.png"
+    },
+    {
+      "name": "Kinder Garden",
+      "location": "572 Statan NY, 12483",
+      "type": "Play Group School",
+      "logoText":
+      "https://cdn.pixabay.com/photo/2016/06/09/18/36/logo-1446293_960_720.png"
+    },
+    {
+      "name": "WilingTon Cambridge",
+      "location": "Kasai Pantan NY, 12483",
+      "type": "Lower Secondary School",
+      "logoText":
+      "https://cdn.pixabay.com/photo/2017/01/13/01/22/rocket-1976107_960_720.png"
+    },
+    {
+      "name": "Fredik Panlon",
+      "location": "572 Statan NY, 12483",
+      "type": "Higher Secondary School",
+      "logoText":
+      "https://cdn.pixabay.com/photo/2017/03/16/21/18/logo-2150297_960_720.png"
+    },
+    {
+      "name": "Whitehouse International",
+      "location": "234 Road Kathmandu, Nepal",
+      "type": "Higher Secondary School",
+      "logoText":
+      "https://cdn.pixabay.com/photo/2017/01/31/13/14/animal-2023924_960_720.png"
+    },
+    {
+      "name": "Haward Play",
+      "location": "572 Statan NY, 12483",
+      "type": "Play Group School",
+      "logoText":
+      "https://cdn.pixabay.com/photo/2016/06/09/18/36/logo-1446293_960_720.png"
+    },
+    {
+      "name": "Campare Handeson",
+      "location": "Kasai Pantan NY, 12483",
+      "type": "Lower Secondary School",
+      "logoText":
+      "https://cdn.pixabay.com/photo/2017/01/13/01/22/rocket-1976107_960_720.png"
+    },
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xfff0f0f0),
       body: SingleChildScrollView(
-        controller: controller,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            MyHeader(
-              image: "assets/icons/coronadr.svg",
-              textTop: "Get to know",
-              textBottom: "About Covid-19.",
-              offset: offset,
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    "Symptoms",
-                    style: kTitleTextstyle,
-                  ),
-                  SizedBox(height: 20),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        SymptomCard(
-                          image: "assets/images/headache.png",
-                          title: "Headache",
-                          isActive: true,
-                        ),
-                        SymptomCard(
-                          image: "assets/images/caugh.png",
-                          title: "Caugh",
-                        ),
-                        SymptomCard(
-                          image: "assets/images/fever.png",
-                          title: "Fever",
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 20),
-                  Text("Prevention", style: kTitleTextstyle),
-                  SizedBox(height: 20),
-                  PreventCard(
-                    text:
-                    "Since the start of the coronavirus outbreak some places have fully embraced wearing facemasks",
-                    image: "assets/images/wear_mask.png",
-                    title: "Wear face mask",
-                  ),
-                  PreventCard(
-                    text:
-                    "Since the start of the coronavirus outbreak some places have fully embraced wearing facemasks",
-                    image: "assets/images/wash_hands.png",
-                    title: "Wash your hands",
-                  ),
-                  SizedBox(height: 50),
-                ],
+        child: Container(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          child: Stack(
+            children: <Widget>[
+              Container(
+                padding: EdgeInsets.only(top: 145),
+                height: MediaQuery.of(context).size.height,
+                width: double.infinity,
+                child: ListView.builder(
+                    itemCount: schoolLists.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return buildList(context, index);
+                    }),
               ),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class PreventCard extends StatelessWidget {
-  final String image;
-  final String title;
-  final String text;
-  const PreventCard({
-    Key key,
-    this.image,
-    this.title,
-    this.text,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 10),
-      child: SizedBox(
-        height: 156,
-        child: Stack(
-          alignment: Alignment.centerLeft,
-          children: <Widget>[
-            Container(
-              height: 136,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                    offset: Offset(0, 8),
-                    blurRadius: 24,
-                    color: kShadowColor,
+              Container(
+                height: 140,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                    color: primary,
+                    borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(30),
+                        bottomRight: Radius.circular(30))),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 30),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      IconButton(
+                        onPressed: () {},
+                        icon: Icon(
+                          Icons.menu,
+                          color: Colors.white,
+                        ),
+                      ),
+                      Text(
+                        "Institutes",
+                        style: TextStyle(color: Colors.white, fontSize: 24),
+                      ),
+                      IconButton(
+                        onPressed: () {},
+                        icon: Icon(
+                          Icons.filter_list,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
-            ),
-            Image.asset(image),
-            Positioned(
-              left: 130,
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-                height: 136,
-                width: MediaQuery.of(context).size.width - 170,
+              Container(
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Text(
-                      title,
-                      style: kTitleTextstyle.copyWith(
-                        fontSize: 16,
-                      ),
+                    SizedBox(
+                      height: 110,
                     ),
-                    Expanded(
-                      child: Text(
-                        text,
-                        maxLines: 4,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontSize: 12,
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      child: Material(
+                        elevation: 5.0,
+                        borderRadius: BorderRadius.all(Radius.circular(30)),
+                        child: TextField(
+                          // controller: TextEditingController(text: locations[0]),
+                          cursorColor: Theme.of(context).primaryColor,
+                          style: dropdownMenuItem,
+                          decoration: InputDecoration(
+                              hintText: "Search School",
+                              hintStyle: TextStyle(
+                                  color: Colors.black38, fontSize: 16),
+                              prefixIcon: Material(
+                                elevation: 0.0,
+                                borderRadius:
+                                BorderRadius.all(Radius.circular(30)),
+                                child: Icon(Icons.search),
+                              ),
+                              border: InputBorder.none,
+                              contentPadding: EdgeInsets.symmetric(
+                                  horizontal: 25, vertical: 13)),
                         ),
                       ),
-                    ),
-                    Align(
-                      alignment: Alignment.topRight,
-                      child: SvgPicture.asset("assets/icons/forward.svg"),
                     ),
                   ],
                 ),
-              ),
-            ),
-          ],
+              )
+            ],
+          ),
         ),
       ),
     );
   }
-}
 
-class SymptomCard extends StatelessWidget {
-  final String image;
-  final String title;
-  final bool isActive;
-  const SymptomCard({
-    Key key,
-    this.image,
-    this.title,
-    this.isActive = false,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
+  Widget buildList(BuildContext context, int index) {
     return Container(
-      padding: EdgeInsets.all(10),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15),
+        borderRadius: BorderRadius.circular(25),
         color: Colors.white,
-        boxShadow: [
-          isActive
-              ? BoxShadow(
-            offset: Offset(0, 10),
-            blurRadius: 20,
-            color: kActiveShadowColor,
-          )
-              : BoxShadow(
-            offset: Offset(0, 3),
-            blurRadius: 6,
-            color: kShadowColor,
-          ),
-        ],
       ),
-      child: Column(
+      width: double.infinity,
+      height: 110,
+      margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Image.asset(image, height: 90),
-          Text(
-            title,
-            style: TextStyle(fontWeight: FontWeight.bold),
+          Container(
+            width: 50,
+            height: 50,
+            margin: EdgeInsets.only(right: 15),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(50),
+              border: Border.all(width: 3, color: secondary),
+              image: DecorationImage(
+                  image: AssetImage("assets/images/virus.png"),
+                  fit: BoxFit.fill),
+            ),
           ),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  schoolLists[index]['name'],
+                  style: TextStyle(
+                      color: primary,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18),
+                ),
+                SizedBox(
+                  height: 6,
+                ),
+                Row(
+                  children: <Widget>[
+                    Icon(
+                      Icons.location_on,
+                      color: secondary,
+                      size: 20,
+                    ),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Text(schoolLists[index]['location'],
+                        style: TextStyle(
+                            color: primary, fontSize: 13, letterSpacing: .3)),
+                  ],
+                ),
+                SizedBox(
+                  height: 6,
+                ),
+                Row(
+                  children: <Widget>[
+                    Icon(
+                      Icons.school,
+                      color: secondary,
+                      size: 20,
+                    ),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Text(schoolLists[index]['type'],
+                        style: TextStyle(
+                            color: primary, fontSize: 13, letterSpacing: .3)),
+                  ],
+                ),
+              ],
+            ),
+          )
         ],
       ),
     );

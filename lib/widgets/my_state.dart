@@ -1,225 +1,143 @@
-import 'package:wic/constant.dart';
-import 'package:wic/widgets/my_header.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:wave_progress_widget/wave_progress_widget.dart';
+import 'package:wic/widgets/my_header.dart';
+import 'package:wic/widgets/counter.dart';
+import 'package:wic/constant.dart';
 
-class InfoScreen extends StatefulWidget {
+
+class MyState extends StatefulWidget {
   @override
-  _InfoScreenState createState() => _InfoScreenState();
+  _MyStateState createState() => new _MyStateState();
 }
 
-class _InfoScreenState extends State<InfoScreen> {
+class _MyStateState extends State<MyState> {
   final controller = ScrollController();
-  double offset = 0;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    controller.addListener(onScroll);
-  }
-
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    controller.dispose();
-    super.dispose();
-  }
-
-  void onScroll() {
-    setState(() {
-      offset = (controller.hasClients) ? controller.offset : 0;
-    });
-  }
+  var _progress = 50.0;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return new Scaffold(
       body: SingleChildScrollView(
         controller: controller,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            MyHeader(
-              image: "assets/icons/coronadr.svg",
-              textTop: "Get to know",
-              textBottom: "About Covid-19.",
-              offset: offset,
+        child: Column(children: <Widget>[
+        ClipPath(
+        clipper: MyClipper(),
+        child: Container(
+          child: Stack(alignment: Alignment(2, 0.5 ),children: <Widget>[Text("jdsgfjdsgfsdl")],),
+          padding: EdgeInsets.only(left: 40, top: 50, right: 20),
+          height: 350,
+          width: double.infinity,
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topRight,
+              end: Alignment.bottomLeft,
+              colors: [
+                Color(0xFFFFFFFF),
+                Color(0xFF777777),
+              ],
             ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+            image: DecorationImage(
+                image: AssetImage("assets/images/virus.png"), alignment: Alignment(-2, -0.5 )
+            ),
+          ),
+        ),
+
+      ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            child: new Center(
+              child: new Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
+                  WaveProgress(300.0, Colors.green, Colors.green, _progress),
+                  SizedBox(
+                    height: 30,
+                  ),
                   Text(
-                    "Symptoms",
-                    style: kTitleTextstyle,
-                  ),
-                  SizedBox(height: 20),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        SymptomCard(
-                          image: "assets/images/headache.png",
-                          title: "Headache",
-                          isActive: true,
-                        ),
-                        SymptomCard(
-                          image: "assets/images/caugh.png",
-                          title: "Caugh",
-                        ),
-                        SymptomCard(
-                          image: "assets/images/fever.png",
-                          title: "Fever",
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 20),
-                  Text("Prevention", style: kTitleTextstyle),
-                  SizedBox(height: 20),
-                  PreventCard(
-                    text:
-                    "Since the start of the coronavirus outbreak some places have fully embraced wearing facemasks",
-                    image: "assets/images/wear_mask.png",
-                    title: "Wear face mask",
-                  ),
-                  PreventCard(
-                    text:
-                    "Since the start of the coronavirus outbreak some places have fully embraced wearing facemasks",
-                    image: "assets/images/wash_hands.png",
-                    title: "Wash your hands",
-                  ),
-                  SizedBox(height: 50),
-                ],
-              ),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class PreventCard extends StatelessWidget {
-  final String image;
-  final String title;
-  final String text;
-  const PreventCard({
-    Key key,
-    this.image,
-    this.title,
-    this.text,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 10),
-      child: SizedBox(
-        height: 156,
-        child: Stack(
-          alignment: Alignment.centerLeft,
-          children: <Widget>[
-            Container(
-              height: 136,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                    offset: Offset(0, 8),
-                    blurRadius: 24,
-                    color: kShadowColor,
+                    'You stell good',
+                    style: TextStyle(color: Colors.green, fontSize: 40.0),
                   ),
                 ],
               ),
             ),
-            Image.asset(image),
-            Positioned(
-              left: 130,
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-                height: 136,
-                width: MediaQuery.of(context).size.width - 170,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text(
-                      title,
-                      style: kTitleTextstyle.copyWith(
-                        fontSize: 16,
-                      ),
-                    ),
-                    Expanded(
-                      child: Text(
-                        text,
-                        maxLines: 4,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontSize: 12,
-                        ),
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.topRight,
-                      child: SvgPicture.asset("assets/icons/forward.svg"),
-                    ),
-                  ],
+          ),
+          SizedBox(height: 20),
+          Container(
+            child: Column(
+              children: <Widget>[
+                SizedBox(
+                  height: 110,
                 ),
-              ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  child: Row(
+                    children: <Widget>[
+                      RichText(
+                        text: TextSpan(
+                          children: [
+                            TextSpan(
+                              text: "Case Update\n",
+                              style: kTitleTextstyle,
+                            ),
+                            TextSpan(
+                              text: "Newest update March 28",
+                              style: TextStyle(
+                                color: kTextLightColor,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Spacer(),
+                      Text(
+                        "See details",
+                        style: TextStyle(
+                          color: kPrimaryColor,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class SymptomCard extends StatelessWidget {
-  final String image;
-  final String title;
-  final bool isActive;
-  const SymptomCard({
-    Key key,
-    this.image,
-    this.title,
-    this.isActive = false,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15),
-        color: Colors.white,
-        boxShadow: [
-          isActive
-              ? BoxShadow(
-            offset: Offset(0, 10),
-            blurRadius: 20,
-            color: kActiveShadowColor,
-          )
-              : BoxShadow(
-            offset: Offset(0, 3),
-            blurRadius: 6,
-            color: kShadowColor,
           ),
-        ],
-      ),
-      child: Column(
-        children: <Widget>[
-          Image.asset(image, height: 90),
-          Text(
-            title,
-            style: TextStyle(fontWeight: FontWeight.bold),
+          SizedBox(height: 20),
+          Container(
+            padding: EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  offset: Offset(0, 4),
+                  blurRadius: 30,
+                  color: kShadowColor,
+                ),
+              ],
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Counter(
+                  color: kInfectedColor,
+                  number: 1046,
+                  title: "Infected",
+                ),
+                Counter(
+                  color: kDeathColor,
+                  number: 87,
+                  title: "Deaths",
+                ),
+                Counter(
+                  color: kRecovercolor,
+                  number: 46,
+                  title: "Recovered",
+                ),
+              ],
+            ),
           ),
-        ],
+        ]),
       ),
     );
   }

@@ -1,6 +1,8 @@
 import 'package:wic/constant.dart';
-import 'package:wic/widgets/counter.dart';
-import 'package:wic/widgets/my_header.dart';
+import 'package:wic/widgets/my_state.dart';
+import 'package:wic/widgets/map_of_pendemic.dart';
+import 'package:wic/widgets/instruction.dart';
+import 'package:wic/widgets/news.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
@@ -29,15 +31,85 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final controller = ScrollController();
-  double offset = 0;
+  final TextStyle dropdownMenuItem =
+      TextStyle(color: Colors.black, fontSize: 18);
+
+  final primary = Color(0xff696b9e);
+  final secondary = Color(0xfff29a94);
+
+  final List<Map> schoolLists = [
+    {
+      "name": "Edgewick Scchol",
+      "location": "572 Statan NY, 12483",
+      "type": "Higher Secondary School",
+      "logoText":
+          "https://cdn.pixabay.com/photo/2017/03/16/21/18/logo-2150297_960_720.png"
+    },
+    {
+      "name": "Xaviers International",
+      "location": "234 Road Kathmandu, Nepal",
+      "type": "Higher Secondary School",
+      "logoText":
+          "https://cdn.pixabay.com/photo/2017/01/31/13/14/animal-2023924_960_720.png"
+    },
+    {
+      "name": "Kinder Garden",
+      "location": "572 Statan NY, 12483",
+      "type": "Play Group School",
+      "logoText":
+          "https://cdn.pixabay.com/photo/2016/06/09/18/36/logo-1446293_960_720.png"
+    },
+    {
+      "name": "WilingTon Cambridge",
+      "location": "Kasai Pantan NY, 12483",
+      "type": "Lower Secondary School",
+      "logoText":
+          "https://cdn.pixabay.com/photo/2017/01/13/01/22/rocket-1976107_960_720.png"
+    },
+    {
+      "name": "Fredik Panlon",
+      "location": "572 Statan NY, 12483",
+      "type": "Higher Secondary School",
+      "logoText":
+          "https://cdn.pixabay.com/photo/2017/03/16/21/18/logo-2150297_960_720.png"
+    },
+    {
+      "name": "Whitehouse International",
+      "location": "234 Road Kathmandu, Nepal",
+      "type": "Higher Secondary School",
+      "logoText":
+          "https://cdn.pixabay.com/photo/2017/01/31/13/14/animal-2023924_960_720.png"
+    },
+    {
+      "name": "Haward Play",
+      "location": "572 Statan NY, 12483",
+      "type": "Play Group School",
+      "logoText":
+          "https://cdn.pixabay.com/photo/2016/06/09/18/36/logo-1446293_960_720.png"
+    },
+    {
+      "name": "Campare Handeson",
+      "location": "Kasai Pantan NY, 12483",
+      "type": "Lower Secondary School",
+      "logoText":
+          "https://cdn.pixabay.com/photo/2017/01/13/01/22/rocket-1976107_960_720.png"
+    },
+  ];
+  int _currentIndex = 0;
+  List<Widget> _children = [];
 
   @override
   void initState() {
-    // TODO: implement initState
+    _children.add(MyState());
+    _children.add(CovidNews());
+    _children.add(InfoScreen());
+    _children.add(MapSample());
     super.initState();
     controller.addListener(onScroll);
   }
+
+  final controller = ScrollController();
+  double offset = 0;
 
   @override
   void dispose() {
@@ -52,237 +124,190 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  int appCurrIndex = 0;
-  List<Icon> iconsList = [
-    Icon(Icons.notifications),
-    Icon(Icons.cake),
-    Icon(Icons.person),
-    Icon(Icons.settings),
-  ];
-  List<Widget> bodyData = [
-    Center(
-      child: Text("Notifications"),
-    ),
-    Center(
-      child: Text("Birthday Cake"),
-    ),
-    Center(
-      child: Text("Person"),
-    ),
-    Center(
-      child: Text("Settings"),
-    ),
-  ];
+  int currentIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-//      bottomNavigationBar: BottomAppBar(
-//        elevation: 8,
-//        color: Colors.brown[50],
-//        shape: const CircularNotchedRectangle(),
-//        child: Container(
-//          height: 70,
-//          child: Row(
-//            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//            children: <Widget>[
-//              IconButton(color: Colors.brown,
-//                icon: Icon(Icons.dock),
-//                onPressed: () {
-//                  Navigator.push(
-//                    context,
-//                    MaterialPageRoute(
-//                      builder: (context) {
-//                        return InfoScreen();
-//                      },
-//                    ),
-//                  );
-//                },
-//              ),
-//              IconButton(color: Colors.brown,
-//                icon: Icon(Icons.map),
-//                onPressed: () {
-//                  Navigator.push(
-//                    context,
-//                    MaterialPageRoute(
-//                      builder: (context) {
-//                        return InfoScreen();
-//                      },
-//                    ),
-//                  );
-//                },
-//              ),
-//              IconButton(color: Colors.brown,
-//                icon: Icon(Icons.autorenew),
-//                onPressed: () {
-//                  Navigator.push(
-//                    context,
-//                    MaterialPageRoute(
-//                      builder: (context) {
-//                        return MapSample();
-//                      },
-//                    ),
-//                  );
-//                },
-//              ),
-//              IconButton(color: Colors.brown,
-//                icon: Icon(Icons.autorenew),
-//                onPressed: () {
-//                  Navigator.push(
-//                    context,
-//                    MaterialPageRoute(
-//                      builder: (context) {
-//                        return InfoScreen();
-//                      },
-//                    ),
-//                  );
-//                },
-//              ),
-//            ],
-//          ),
-//        ),
-//      ),
 
-      bottomNavigationBar: Container(
-          margin: EdgeInsets.all(10.0),
-          padding: EdgeInsets.all(10.0),
-          decoration: BoxDecoration(
-            color: Colors.black54,
-            borderRadius: BorderRadius.circular(100.0),
-          ),
-          child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: List<IconButton>.generate(4, (int i) {
-                return IconButton(
-                  color: i == appCurrIndex ? Colors.white : Colors.white60,
-                  icon: iconsList[i],
-                  iconSize: 30.0,
-                  onPressed: () {
-                    setState(() {
-                      appCurrIndex = i;
-                    });
-                  },
-                );
-              }))),
+      bottomNavigationBar: _buildBottomNavigationBar(),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.brown,
         splashColor: Colors.brown[400],
         onPressed: () {},
-        child: Icon(Icons.call,),
+        child: Icon(
+          Icons.call,
+        ),
         tooltip: 'call if you find corona case',
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      body: SingleChildScrollView(
-        controller: controller,
-        child: Column(
-          children: <Widget>[
-            MyHeader(),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              child: Column(
-                children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      RichText(
-                        text: TextSpan(
-                          children: [
-                            TextSpan(
-                              text: "Case Update\n",
-                              style: kTitleTextstyle,
-                            ),
-                            TextSpan(
-                              text: "Newest update March 28",
-                              style: TextStyle(
-                                color: kTextLightColor,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Spacer(),
-                      Text(
-                        "See details",
-                        style: TextStyle(
-                          color: kPrimaryColor,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 20),
-                  Container(
-                    padding: EdgeInsets.all(20),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                          offset: Offset(0, 4),
-                          blurRadius: 30,
-                          color: kShadowColor,
-                        ),
-                      ],
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Counter(
-                          color: kInfectedColor,
-                          number: 1046,
-                          title: "Infected",
-                        ),
-                        Counter(
-                          color: kDeathColor,
-                          number: 87,
-                          title: "Deaths",
-                        ),
-                        Counter(
-                          color: kRecovercolor,
-                          number: 46,
-                          title: "Recovered",
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Text(
-                        "Spread of Virus",
-                        style: kTitleTextstyle,
-                      ),
-                      Text(
-                        "See details",
-                        style: TextStyle(
-                          color: kPrimaryColor,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: 20),
-                    padding: EdgeInsets.all(20),
-                    height: 178,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                          offset: Offset(0, 10),
-                          blurRadius: 30,
-                          color: kShadowColor,
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      body: _children[_currentIndex],
+//      SingleChildScrollView(
+//        controller: controller,
+//        child: Column(
+//          children: <Widget>[
+//            Padding(
+//              padding: EdgeInsets.symmetric(horizontal: 20),
+//              child: Column(
+//                children: <Widget>[
+//                  Stack(
+//                    children: <Widget>[
+//                      Container(
+//                        padding: EdgeInsets.only(top: 145),
+//                        height: MediaQuery.of(context).size.height,
+//                        width: double.infinity,
+//                        child: ListView.builder(
+//                            itemCount: schoolLists.length,
+//                            itemBuilder: (BuildContext context, int index) {
+//                              return buildList(context, index);
+//                            }),
+//                      ),
+//                      Container(
+//                        height: 140,
+//                        width: double.infinity,
+//                        decoration: BoxDecoration(
+//                            color: primary,
+//                            borderRadius: BorderRadius.only(
+//                                bottomLeft: Radius.circular(30),
+//                                bottomRight: Radius.circular(30))),
+//                        child: Padding(
+//                          padding: const EdgeInsets.symmetric(horizontal: 30),
+//                          child: Row(
+//                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                            children: <Widget>[
+//                              IconButton(
+//                                onPressed: () {},
+//                                icon: Icon(
+//                                  Icons.menu,
+//                                  color: Colors.white,
+//                                ),
+//                              ),
+//                              Text(
+//                                "Where is Covid",
+//                                style: TextStyle(
+//                                    color: Colors.white, fontSize: 24),
+//                              ),
+//                            ],
+//                          ),
+//                        ),
+//                      ),
+//                    ],
+//                  ),
+//                ],
+//              ),
+//            ),
+//          ],
+//        ),
+//      ),
+
+    );
+  }
+
+  BottomNavigationBar _buildBottomNavigationBar() {
+    return BottomNavigationBar(
+      onTap: _onTabTapped,
+      items: <BottomNavigationBarItem>[
+        BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            title: Text("Home")),
+        BottomNavigationBarItem(
+            icon: Icon(Icons.shopping_cart),
+            title: Text("Cart")),
+        BottomNavigationBarItem(
+            icon: Icon(Icons.favorite_border),
+            title: Text("Wishlist")),
+        BottomNavigationBarItem(
+            icon: Icon(Icons.person_outline),
+            title: Text("You")),
+      ],
+      type: BottomNavigationBarType.fixed,
+      currentIndex: _currentIndex,
+    );
+  }
+
+  _onTabTapped(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
+  }
+
+
+  Widget buildList(BuildContext context, int index) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(25),
+        color: Colors.white,
+      ),
+      width: double.infinity,
+      height: 110,
+      margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Container(
+            width: 50,
+            height: 50,
+            margin: EdgeInsets.only(right: 15),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(50),
+              border: Border.all(width: 3, color: secondary),
+              image: DecorationImage(
+                  image: AssetImage("assets/images/virus.png"),
+                  fit: BoxFit.fill),
             ),
-          ],
-        ),
+          ),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  schoolLists[index]['name'],
+                  style: TextStyle(
+                      color: primary,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18),
+                ),
+                SizedBox(
+                  height: 6,
+                ),
+                Row(
+                  children: <Widget>[
+                    Icon(
+                      Icons.location_on,
+                      color: secondary,
+                      size: 20,
+                    ),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Text(schoolLists[index]['location'],
+                        style: TextStyle(
+                            color: primary, fontSize: 13, letterSpacing: .3)),
+                  ],
+                ),
+                SizedBox(
+                  height: 6,
+                ),
+                Row(
+                  children: <Widget>[
+                    Icon(
+                      Icons.school,
+                      color: secondary,
+                      size: 20,
+                    ),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Text(schoolLists[index]['type'],
+                        style: TextStyle(
+                            color: primary, fontSize: 13, letterSpacing: .3)),
+                  ],
+                ),
+              ],
+            ),
+          )
+        ],
       ),
     );
   }

@@ -1,4 +1,4 @@
-import 'package:wic/info_screen.dart';
+import 'package:wic/widgets/my_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -46,7 +46,7 @@ class _MyHeaderState extends State<MyHeader> {
                   context,
                   MaterialPageRoute(
                     builder: (context) {
-                      return InfoScreen();
+                      return MyState();
                     },
                   ),
                 );
